@@ -7,9 +7,9 @@
         <link  rel="icon" type="image/x-icon" href="favicon.png" />
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-        <link rel="stylesheet" href="assets/css/main.css">
-        <link rel="stylesheet" href="assets/css/main_new.css">
-        
+        <link rel="stylesheet" href="{{asset("assets/css/main.css")}}">
+        <link rel="stylesheet" href="{{asset("assets/css/main_new.css")}}">
+
         <script src="https://js.stripe.com/v3/"></script>
 
         {% block stylesheets %}{% endblock %}
@@ -62,8 +62,8 @@
                 </div>
             </div>
         </footer>
-        <script src="assets/js/materialize.js"></script>
-        <script src="assets/js/main.js"></script>
+        <script src="{{asset("assets/js/materialize.js")}}"></script>
+        <script src="{{asset("assets/js/main.js")}}"></script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>
