@@ -1,0 +1,115 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Payment{% endblock %}
+
+{% block body %}
+
+<div class="container">
+
+    {{form_start(form, {'attr' : 
+            { 'method' : "post",
+                'id' : 'payment-form',
+            }})}}
+
+        {{ form_label(form.email) }}
+        {{form_widget(form.email, { "attr" : {"value": email,}})}}
+        {{ form_errors(form) }}
+
+        {{ form_label(form.amount) }}
+        {{form_widget(form.amount,{ "attr" : {"value": amount}})}}
+        {{ form_errors(form) }}
+
+
+            {#  PAIMENT FORM #}
+        
+        <div class="input-field col s12">
+            <h5 class="center">Payment</h5>
+            <div class="form-row">
+                <label for="card-element">
+                Credit or debit card
+                </label> 
+                <div id="card-element">
+                <!-- A Stripe Element will be inserted here. -->
+                
+                </div>
+                <div id="card-errors" role="alert"></div>
+            </div>
+        </div>
+        <button class="btn">{{ button_label|default('Payer') }}</button>
+
+    {{form_end(form)}}
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+{# <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"> #}
+<script src="https://js.stripe.com/v3/"></script>
+
+    <script>
+        var stripe = Stripe('pk_test_51H2HR8EP44dUvF8Kq6bRKZeeNapUaCP445JltXpJozilm2qi4c9by5Fb1MS33bQcwBwLN0QcvOc3RJZQx8cQt4k000Ia1XK3Xc');
+        // Create an instance of Elements.
+        var elements = stripe.elements();
+        // Custom styling can be passed to options when creating an Element.
+        // (Note that this demo uses a wider set of styles than the guide below.)
+        var style = {
+        base: {
+            color: '#32325d',
+            fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+            fontSmoothing: 'antialiased',
+            fontSize: '16px',
+            '::placeholder': {
+            color: '#aab7c4'
+            }
+        },
+        invalid: {
+            color: '#fa755a',
+            iconColor: '#fa755a'
+        }
+        };
+        // Create an instance of the card Element.
+        var card = elements.create('card', {style: style});
+        // Add an instance of the card Element into the `card-element` <div>.
+        card.mount('#card-element');
+    </script>
+
+
+
+
+    {# // Create a token or display an error when the form is submitted. #}
+{# var form = document.getElementById('payment-form');
+form.addEventListener('submit', function(event) {
+  event.preventDefault();
+
+  stripe.createToken(card).then(function(result) {
+    if (result.error) {
+      // Inform the customer that there was an error.
+      var errorElement = document.getElementById('card-errors');
+      errorElement.textContent = result.error.message;
+    } else {
+      // Send the token to your server.
+      stripeTokenHandler(result.token);
+    }
+  });
+}); #}
+
+
+{# function stripeTokenHandler(token) {
+  // Insert the token ID into the form so it gets submitted to the server
+  var form = document.getElementById('payment-form');
+  var hiddenInput = document.createElement('input');
+  hiddenInput.setAttribute('type', 'hidden');
+  hiddenInput.setAttribute('name', 'stripeToken');
+  hiddenInput.setAttribute('value', token.id);
+  form.appendChild(hiddenInput); #}
+
+  {# // Submit the form #}
+  {# form.submit();
+} #}
+
+
+
+
+{# </script> #}
+{% endblock %}

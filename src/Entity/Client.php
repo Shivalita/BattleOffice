@@ -62,6 +62,21 @@ class Client
      */
     private $created_at;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Country::class, inversedBy="clients")
+     */
+    private $country;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Shipping::class, mappedBy="client", cascade={"persist", "remove"})
+     */
+    private $shipping;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Order::class, mappedBy="client", cascade={"persist", "remove"})
+     */
+    private $client_order;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -171,6 +186,54 @@ class Client
     public function setCreatedAt(?\DateTimeInterface $created_at): self
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getCountry(): ?Country
+    {
+        return $this->country;
+    }
+
+    public function setCountry(?Country $country): self
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    public function getShipping(): ?Shipping
+    {
+        return $this->shipping;
+    }
+
+    public function setShipping(?Shipping $shipping): self
+    {
+        $this->shipping = $shipping;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newClient = null === $shipping ? null : $this;
+        if ($shipping->getClient() !== $newClient) {
+            $shipping->setClient($newClient);
+        }
+
+        return $this;
+    }
+
+    public function getClientOrder(): ?Order
+    {
+        return $this->client_order;
+    }
+
+    public function setClientOrder(?Order $client_order): self
+    {
+        $this->client_order = $client_order;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newClient = null === $client_order ? null : $this;
+        if ($client_order->getClient() !== $newClient) {
+            $client_order->setClient($newClient);
+        }
 
         return $this;
     }

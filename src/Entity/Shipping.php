@@ -57,6 +57,16 @@ class Shipping
      */
     private $created_at;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Country::class, inversedBy="shippings")
+     */
+    private $country;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Client::class, inversedBy="shipping", cascade={"persist", "remove"})
+     */
+    private $client;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -154,6 +164,30 @@ class Shipping
     public function setCreatedAt(?\DateTimeInterface $created_at): self
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getCountry(): ?Country
+    {
+        return $this->country;
+    }
+
+    public function setCountry(?Country $country): self
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    public function getClient(): ?Client
+    {
+        return $this->client;
+    }
+
+    public function setClient(?Client $client): self
+    {
+        $this->client = $client;
 
         return $this;
     }

@@ -19,12 +19,12 @@ class Order
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true, options={"default": "stripe"})
      */
     private $payment_method;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="boolean", nullable=true, options={"default": false})
      */
     private $is_paid;
 
@@ -32,6 +32,26 @@ class Order
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $created_at;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="orders")
+     */
+    private $product;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Client::class, inversedBy="client_order", cascade={"persist", "remove"})
+     */
+    private $client;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $api_id;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Payment::class, cascade={"persist", "remove"})
+     */
+    private $payment;
 
     public function getId(): ?int
     {
@@ -70,6 +90,54 @@ class Order
     public function setCreatedAt(?\DateTimeInterface $created_at): self
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    public function getClient(): ?Client
+    {
+        return $this->client;
+    }
+
+    public function setClient(?Client $client): self
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
+    public function getApiId(): ?int
+    {
+        return $this->api_id;
+    }
+
+    public function setApiId(?int $api_id): self
+    {
+        $this->api_id = $api_id;
+
+        return $this;
+    }
+
+    public function getPayment(): ?Payment
+    {
+        return $this->payment;
+    }
+
+    public function setPayment(?Payment $payment): self
+    {
+        $this->payment = $payment;
 
         return $this;
     }
